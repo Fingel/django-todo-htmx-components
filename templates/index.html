@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Best TODO app</title>
+    {% component_css_dependencies %}
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <div id="todos">
+    {% for todo in todos %}
+        {% component "todo" todo=todo %}
+    {% endfor %}
+    </div>
+    <form hx-post="{% url 'todos' %}" hx-swap="beforeend" hx-target="#todos">
+        {% csrf_token %}
+        <input type="text" name="content" />
+        <button type="submit">Add Todo</button>
+    </form>
+    {% component_js_dependencies %}
+</body>
+</html>
